@@ -1,0 +1,41 @@
+#map {
+    height: 100vh;
+}
+
+#legend {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex; /* Ensure it uses flexbox layout */
+    align-items: flex-start; /* Align items at the top */
+    max-width: 400px; /* Optional: Adjust width as needed */
+}
+
+.legend-container {
+    display: flex; 
+    align-items: flex-start; 
+}
+
+.legend-title {
+    font-weight: bold;
+    margin-right: 5px; /* Space between the title and items */
+}
+
+/* Style the legend items */
+#legend-items {
+    display: flex;
+    flex-direction: column; /
+}
+
+/* Style each color box in the legend */
+.color-box {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 10px; /* Space between color box and text */
+}
