@@ -4,7 +4,7 @@ This project visualises the isochrones (areas accessible within a certain time) 
 ## Usage
 
 1. **Generate Isochrone GeoJSONs:**
-    Open and run the `jlem_lr_isochrones.ipynb` Jupyter Notebook.
+    - Open and run the `jlem_lr_isochrones.ipynb` Jupyter Notebook.
     
 
 2. **View the Map in the Web App:**
