@@ -16,12 +16,15 @@ map.getPane('linesPane').style.zIndex = 500; // Higher than isochronesPane
 map.getPane('stationsPane').style.zIndex = 600; // Highest zIndex
 
 const isochronesLayer = L.layerGroup().addTo(map);
+const linesLayer = L.layerGroup().addTo(map);
 
 // Show isochrones based on selected time range
-function updateIsochrones(timeThresh) {
+function updateIsochrones(timeThresh, line) {
     // map.getPane('isochronesPane').clearGeoJSON();
     isochronesLayer.clearLayers();
-    fetch('isochrones/jlem_lrt_dist_iso_reprojected.geojson')
+    console.log(line);
+    const fname = line === "all" ?  `isochrones/jlem_lrt_dist_iso_reprojected.geojson` : `isochrones/jlem_lrt_dist_iso_${line}_reprojected.geojson`;
+    fetch(fname)
         .then(response => response.json())
         .then(data => {
             const filteredFeatures = data.features.filter(feature => feature.properties.time <= timeThresh);
@@ -40,18 +43,45 @@ function updateIsochrones(timeThresh) {
         .catch(error => console.error('Error loading isochrones GeoJSON:', error));
 }
 
-updateIsochrones(20); // Load all isochrones by default
+updateIsochrones(20, 'all'); // Load all isochrones by default
+updateLines("all"); //load all lines
 
 // Event listener for time range selection
 document.getElementById('timeThresh').addEventListener('change', function() {
     const selectedTimeThresh = parseInt(this.value);
-    updateIsochrones(selectedTimeThresh);
+    updateIsochrones(selectedTimeThresh, getLine());
+    updateLines(getLine());
 });
-// Load and add lines GeoJSON
-fetch('data/jlem_lrt_lines_clr.geojson')
+
+// Event listener for lines selection
+document.getElementById('line-select').addEventListener('change', function() {
+    const selectedLine = getLine();//this.value;
+    updateIsochrones(parseInt(document.getElementById('timeThresh').value), selectedLine);
+    updateLines(selectedLine);
+});
+
+function getLine() { //get the currently selected line
+    const selectedOptions = Array.from(document.getElementById('line-select').selectedOptions);
+    return selectedOptions.map(option => option.value)[0];
+}
+function updateLines(line) {
+    // Load and add lines GeoJSON
+    linesLayer.clearLayers();
+    fetch('data/jlem_lrt_lines_clr.geojson')
     .then(response => response.json())
     .then(data => {
-        L.geoJSON(data, {
+        if (line !== "all") {
+            if (line === "green") {
+                filteredLines = data.features.filter(feature => feature.properties.color === line || feature.properties.color === "limegreen");
+            } else if (line === "blue") {
+                filteredLines = data.features.filter(feature => feature.properties.color === line || feature.properties.color === "deepskyblue");
+            } else {
+                filteredLines = data.features.filter(feature => feature.properties.color === line);
+            }
+        } else {
+            filteredLines = data
+        }
+        L.geoJSON(filteredLines, {
             style: function(feature) {
                 return {
                     color: feature.properties.color || '#FF0000',
@@ -60,10 +90,10 @@ fetch('data/jlem_lrt_lines_clr.geojson')
                 };
             },
             pane: 'linesPane' // Set pane for lines
-        }).addTo(map);
+        }).addTo(linesLayer);
     })
-    .catch(error => console.error('Error loading lines GeoJSON:', error));
-
+    .catch(error => console.error('Error loading lines GeoJSON:', error));   
+}
 // Load and add stations GeoJSON
 fetch('data/jlem_lrt_stations.geojson')
     .then(response => response.json())

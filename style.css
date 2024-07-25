@@ -1,3 +1,12 @@
+h1 {
+    padding-top: 7.5px;
+    padding-left: 7.5px;
+}
+
+body {
+    font-family: 'Gill Sans MT';
+}
+
 #map {
     height: 100vh;
 }
@@ -11,9 +20,9 @@
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    display: flex; /* Ensure it uses flexbox layout */
-    align-items: flex-start; /* Align items at the top */
-    max-width: 400px; /* Optional: Adjust width as needed */
+    display: flex; 
+    align-items: flex-start; 
+    max-width: 400px; 
 }
 
 .legend-container {
@@ -23,10 +32,9 @@
 
 .legend-title {
     font-weight: bold;
-    margin-right: 5px; /* Space between the title and items */
+    margin-right: 5px; 
 }
 
-/* Style the legend items */
 #legend-items {
     display: flex;
     flex-direction: column; /
@@ -37,5 +45,62 @@
     width: 20px;
     height: 20px;
     display: inline-block;
-    margin-right: 10px; /* Space between color box and text */
+    margin-right: 10px; 
 }
+
+#controls, .select-container {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#control-panel {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;            
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#line-select{
+    background-color: transparent;
+    height: 44px;
+    border: none;
+    overflow: hidden;
+    font-family: 'Gill Sans MT';
+}
+#line-select:focus {
+    outline: none;
+}
+
+#line-select option {
+    width: 60px;
+    font-size: 1.2em;
+    padding: 10px 0;
+    text-align: center;
+    margin-right: 20px;
+    display: inline-block;
+    cursor: pointer;
+    border: solid 1px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+#line-select option[value="red"] { background-color: red; color: white; border-color: transparent;}
+#line-select option[value="green"] { background-color: green; color: white; border-color: transparent;}
+#line-select option[value="blue"] { background-color: blue; color: white; border-color: transparent;}
+#line-select option[value="purple"] { background-color: indigo; color: white; border-color: transparent;}
+#line-select option[value="yellow"] { background-color: yellow; color: black; border-color: transparent;}
+#line-select option[value="orange"] { background-color: orange; color: white; border-color: transparent;}
+#line-select option[value="all"] { background-color: gray; color: white; border-color: transparent;}
+
+
+#line-select option[value="red"]:hover { background-color: transparent; color: red; border-color: red;}
+#line-select option[value="green"]:hover { background-color: transparent; color: green; border-color: green;}
+#line-select option[value="blue"]:hover { background-color: transparent; color: blue; border-color: blue;}
+#line-select option[value="purple"]:hover { background-color: transparent; color: indigo; border-color: indigo;}
+#line-select option[value="yellow"]:hover { background-color: transparent; color: goldenrod; border-color: goldenrod;}
+#line-select option[value="orange"]:hover { background-color: transparent; color: orange; border-color: orange;}
+#line-select option[value="all"]:hover { background-color: transparent; color: white; border-color: white;}
+
+#line-select option[value="red"]:active { background-color: transparent; color: purple; border-color: red;}
