@@ -1,6 +1,5 @@
 h1 {
-    padding-top: 5px;
-    padding-left: 20px;
+    padding-left: 25px;
 }
 
 body {
@@ -50,23 +49,46 @@ body {
 
 #controls {
     flex: 1;
-    display: inline-block;
     vertical-align: middle;
+    margin-left: 25px;
 }
-
 
 #control-panel {
     display: flex;
-    flex-direction: column; /* Stack controls and labels vertically */
-    gap: 10px; /* Space between different control sections */
-    margin-bottom: 10px; /* Space below to prevent overlap */
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 10px; 
+}
+
+.time-label-container {
+    display: block;
+    text-align: center;
+    display: flex;
+    justify-content: start; 
+    align-items: center; 
 }
 
 .line-select, .time-select {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping to the next line if necessary */
-    gap: 10px; /* Space between labels */
-    justify-content: center; /* Center the labels */
+    flex-wrap: wrap; 
+    gap: 10px; 
+    justify-content: center; 
+}
+
+
+.time-select {
+    justify-content: start;
+}
+
+.line-select {
+    margin-right: 25px;
+    align-self: flex-end;
+}
+
+.time-select label {
+    margin-top: 10px;
 }
 
 .line-select label, .time-select label {
@@ -83,9 +105,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-.time-select label {
-    margin-top: 10px;
-}
 
 input[type="radio"] {
     display: none; /* Hide radio buttons */
@@ -95,13 +114,7 @@ input[type="radio"]:checked + label {
     font-weight: bold; 
 }
 
-.time-label-container {
-    display: block;
-    text-align: center;
-    display: flex;
-    justify-content: center; /* Centers items horizontally */
-    align-items: center; 
-}
+
 
 #line-select:focus {
     outline: none;
