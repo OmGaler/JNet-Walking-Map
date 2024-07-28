@@ -17,12 +17,11 @@ map.getPane('stationsPane').style.zIndex = 600; // Highest zIndex
 
 const isochronesLayer = L.layerGroup().addTo(map);
 const linesLayer = L.layerGroup().addTo(map);
+const stationsLayer = L.layerGroup().addTo(map);
 
 // Show isochrones based on selected time range
 function updateIsochrones(timeThresh, line) {
-    // map.getPane('isochronesPane').clearGeoJSON();
     isochronesLayer.clearLayers();
-    console.log(line);
     const fname = line === "all" ?  `isochrones/jlem_lrt_dist_iso_reprojected.geojson` : `isochrones/jlem_lrt_dist_iso_${line}_reprojected.geojson`;
     fetch(fname)
         .then(response => response.json())
@@ -45,25 +44,49 @@ function updateIsochrones(timeThresh, line) {
 
 updateIsochrones(20, 'all'); // Load all isochrones by default
 updateLines("all"); //load all lines
+updateStations("all");
 
-// Event listener for time range selection
-document.getElementById('timeThresh').addEventListener('change', function() {
-    const selectedTimeThresh = parseInt(this.value);
-    updateIsochrones(selectedTimeThresh, getLine());
-    updateLines(getLine());
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Event listener for time range selection
+    document.querySelector('.time-select').addEventListener('change', function(event) {
+        if (event.target && event.target.matches('input[name="timeThresh"]')) {
+            const selectedTimeThresh = parseInt(event.target.value, 10);
+            const selectedLine = getLine();
+            if (selectedLine) {
+                updateIsochrones(selectedTimeThresh, selectedLine);
+                updateLines(selectedLine);
+                updateStations(selectedLine);
+            }
+        }
+    });
+
+    // Event listener for line selection (using event delegation)
+    document.querySelector('.line-select').addEventListener('change', function(event) {
+        if (event.target && event.target.matches('input[name="line"]')) {
+            const selectedLine = getLine();
+            if (selectedLine) {
+                const selectedTimeThresh = getTimeThresh();
+                // const selectedTimeThresh = parseInt(document.getElementById('timeThresh').value, 10);
+                updateIsochrones(selectedTimeThresh, selectedLine);
+                updateLines(selectedLine);
+                updateStations(selectedLine);
+            }
+        }
+    });
+
+    // Function to get the currently selected line
+    function getLine() {
+        const selectedRadio = document.querySelector('input[name="line"]:checked');
+        return selectedRadio ? selectedRadio.value : null;
+    }
+
+    function getTimeThresh() {
+        const selectedRadio = document.querySelector('input[name="timeThresh"]:checked');
+        return selectedRadio ? parseInt(selectedRadio.value, 10) : null;
+    }
+
 });
 
-// Event listener for lines selection
-document.getElementById('line-select').addEventListener('change', function() {
-    const selectedLine = getLine();//this.value;
-    updateIsochrones(parseInt(document.getElementById('timeThresh').value), selectedLine);
-    updateLines(selectedLine);
-});
-
-function getLine() { //get the currently selected line
-    const selectedOptions = Array.from(document.getElementById('line-select').selectedOptions);
-    return selectedOptions.map(option => option.value)[0];
-}
 function updateLines(line) {
     // Load and add lines GeoJSON
     linesLayer.clearLayers();
@@ -94,33 +117,58 @@ function updateLines(line) {
     })
     .catch(error => console.error('Error loading lines GeoJSON:', error));   
 }
+
+
+function getLineColour(lines) {
+    lineDots = '';
+    lines.forEach(line => {
+        colour = line;
+        if (colour === "yellow") {
+            colour = "goldenrod"; //for visibility, plus its the golden line anyway :)
+        }
+        lineDots += `<span class="dot" style="background-color: ${colour};"></span>`;
+    });
+    return lineDots;
+}
+
+function updateStations(line) {
 // Load and add stations GeoJSON
-fetch('data/jlem_lrt_stations.geojson')
-    .then(response => response.json())
-    .then(data => {
-        L.geoJSON(data, {
-            pointToLayer: function(feature, latlng) {
-                return L.circleMarker(latlng, {
-                    radius: 6,
-                    fillColor: '#000000',
-                    color: '#FFFFFF',
-                    weight: 1,
-                    opacity: 0.6,
-                    fillOpacity: 0.6,
-                    pane: "stationsPane"
-                });
-            },
-            onEachFeature: function(feature, layer) {
-                if (feature.properties && feature.properties.Name) {
-                    layer.bindTooltip('<b>' + feature.properties.Name + '</b>', { permanent: false, direction: 'top' });
-                    layer.bindPopup('<b>' + feature.properties.Name + '</b>');
-                }
-            },
-            pane: 'stationsPane' // Set pane for stations
-        }).addTo(map);
+    stationsLayer.clearLayers();
+    fetch('data/jlem_lrt_stations.geojson')
+        .then(response => response.json())
+        .then(data => {
+            if (line !== "all") {
+                filteredStations = data.features.filter(feature => feature.properties.lines.includes(line));
+            } else {
+                filteredStations = data;
+            }
+            L.geoJSON(filteredStations, {
+                pointToLayer: function(feature, latlng) {
+                    return L.circleMarker(latlng, {
+                        radius: 6,
+                        fillColor: '#000000',
+                        color: '#FFFFFF',
+                        weight: 1,
+                        opacity: 0.6,
+                        fillOpacity: 0.6,
+                        pane: "stationsPane"
+                    });
+                },
+                onEachFeature: function(feature, layer) {
+                    if (feature.properties && feature.properties.Name) {
+                        const lineDots = getLineColour(feature.properties.lines || []);
+                        const content = `<b>${feature.properties.Name}</b><br>${lineDots}`;
+                        layer.bindTooltip('<b>' + feature.properties.Name + '</b>', { permanent: false, direction: 'top' });
+                        layer.bindTooltip(content, { permanent: false, direction: 'top' });
+                        // layer.bindPopup('<b>' + feature.properties.Name + '</b>');
+                        layer.bindPopup(content);
+                    }
+                },
+                pane: 'stationsPane' // Set pane for stations
+            }).addTo(stationsLayer);
     })
     .catch(error => console.error('Error loading stations GeoJSON:', error));
-
+}
 // Function to add the legend
 function addLegend(features) {
     const legend = document.getElementById('legend-items');

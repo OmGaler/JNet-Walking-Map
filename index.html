@@ -12,26 +12,42 @@
     <h1>Isochrone Map Viewer</h1>
     <div id="control-panel">
         <div id="controls">
-            <label for="timeThresh">Show Isochrones for Walking Time Threshold:</label>
-            <select id="timeThresh">
-                <option value="5">Up to 5 minutes</option>
-                <option value="10">Up to 10 minutes</option>
-                
-                <option value="15">Up to 15 minutes</option>
-                <option value="20" selected="selected">Up to 20 minutes</option>
-            </select>
+            <div class="time-label-container">
+                <label id="time-thresh-label" for="time-select">Show Isochrones for Walking Time Threshold</label>
+            </div>
+            <div class="time-select">
+                <input type="radio" id="time5" name="timeThresh" value="5">
+                <label for="time5">5 mins</label>
+                <input type="radio" id="time10" name="timeThresh" value="10">
+                <label for="time10">10 mins</label>
+                <input type="radio" id="time15" name="timeThresh" value="15">
+                <label for="time15">15 mins</label>
+                <input type="radio" id="time20" name="timeThresh" value="20" checked>
+                <label for="time20">20 mins</label>
+            </div>
         </div>
-        <div class="select-container">
-            <select name="lines" id="line-select" title="" multiple>
-                <option value="all" selected="selected">All</option>
-                <option value="red">Red</option>
-                <option value="green">Green</option>
-                <option value="blue">Blue</option>
-                <option value="purple">Purple</option>
-                <option value="yellow">Yellow</option>
-                <option value="orange">Orange</option>
-            </select>
-        </div> 
+        <div class="line-select">
+            <input type="radio" id="all" name="line" value="all" checked>
+            <label for="all">All</label>
+            
+            <input type="radio" id="red" name="line" value="red">
+            <label for="red">Red</label>
+            
+            <input type="radio" id="green" name="line" value="green">
+            <label for="green">Green</label>
+            
+            <input type="radio" id="blue" name="line" value="blue">
+            <label for="blue">Blue</label>
+            
+            <input type="radio" id="purple" name="line" value="purple">
+            <label for="purple">Purple</label>
+            
+            <input type="radio" id="yellow" name="line" value="yellow">
+            <label for="yellow">Yellow</label>
+            
+            <input type="radio" id="orange" name="line" value="orange">
+            <label for="orange">Orange</label>
+        </div>
     </div>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

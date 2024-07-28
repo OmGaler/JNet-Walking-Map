@@ -1,6 +1,6 @@
 h1 {
-    padding-top: 7.5px;
-    padding-left: 7.5px;
+    padding-top: 5px;
+    padding-left: 20px;
 }
 
 body {
@@ -8,13 +8,13 @@ body {
 }
 
 #map {
-    height: 100vh;
+    height: 85vh;
 }
 
 #legend {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    bottom: 20px;
+    left: 20px;
     background: white;
     padding: 10px;
     border-radius: 5px;
@@ -37,7 +37,7 @@ body {
 
 #legend-items {
     display: flex;
-    flex-direction: column; /
+    flex-direction: column; 
 }
 
 /* Style each color box in the legend */
@@ -48,59 +48,121 @@ body {
     margin-right: 10px; 
 }
 
-#controls, .select-container {
+#controls {
+    flex: 1;
     display: inline-block;
     vertical-align: middle;
 }
 
+
 #control-panel {
     display: flex;
-    justify-content: space-between; 
-    align-items: center;            
-    margin-bottom: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
+    flex-direction: column; /* Stack controls and labels vertically */
+    gap: 10px; /* Space between different control sections */
+    margin-bottom: 10px; /* Space below to prevent overlap */
 }
 
-#line-select{
-    background-color: transparent;
-    height: 44px;
-    border: none;
-    overflow: hidden;
-    font-family: 'Gill Sans MT';
+.line-select, .time-select {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping to the next line if necessary */
+    gap: 10px; /* Space between labels */
+    justify-content: center; /* Center the labels */
 }
+
+.line-select label, .time-select label {
+    width: 80px; 
+    padding: 10px 0; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    box-sizing: border-box; /* Include padding and border in width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.time-select label {
+    margin-top: 10px;
+}
+
+input[type="radio"] {
+    display: none; /* Hide radio buttons */
+}
+
+input[type="radio"]:checked + label {
+    font-weight: bold; 
+}
+
+.time-label-container {
+    display: block;
+    text-align: center;
+    display: flex;
+    justify-content: center; /* Centers items horizontally */
+    align-items: center; 
+}
+
 #line-select:focus {
     outline: none;
 }
 
-#line-select option {
-    width: 60px;
-    font-size: 1.2em;
-    padding: 10px 0;
-    text-align: center;
-    margin-right: 20px;
-    display: inline-block;
-    cursor: pointer;
-    border: solid 1px;
-    border-radius: 5px;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+input[type="radio"] {
+    display: none; /* Hide the radio buttons */
 }
 
-#line-select option[value="red"] { background-color: red; color: white; border-color: transparent;}
-#line-select option[value="green"] { background-color: green; color: white; border-color: transparent;}
-#line-select option[value="blue"] { background-color: blue; color: white; border-color: transparent;}
-#line-select option[value="purple"] { background-color: indigo; color: white; border-color: transparent;}
-#line-select option[value="yellow"] { background-color: yellow; color: black; border-color: transparent;}
-#line-select option[value="orange"] { background-color: orange; color: white; border-color: transparent;}
-#line-select option[value="all"] { background-color: gray; color: white; border-color: transparent;}
+/* Default unselected state */
+label[for="all"] { background-color: gray; color: white; }
+label[for="red"] { background-color: red; color: white; }
+label[for="green"] { background-color: green; color: white; }
+label[for="blue"] { background-color: blue; color: white; }
+label[for="purple"] { background-color: indigo; color: white; }
+label[for="yellow"] { background-color: yellow; color: black; }
+label[for="orange"] { background-color: orange; color: white; }
+/* Hover state */
+label[for="all"]:hover {background-color: transparent; color: black; border-color: black;}
+label[for="red"]:hover {background-color: transparent; color: red; border-color: red;}
+label[for="green"]:hover {background-color: transparent; color: green; border-color: green;}
+label[for="blue"]:hover {background-color: transparent; color: blue; border-color: blue;}
+label[for="purple"]:hover {background-color: transparent; color: indigo; border-color: indigo;}
+label[for="yellow"]:hover {background-color: transparent; color: goldenrod; border-color: goldenrod;}
+label[for="orange"]:hover {background-color: transparent; color: orange; border-color: orange;}
+/* Selected state */
+label[for="all"]:selected { background-color: gray; color: white;}
+label[for="red"]:selected { background-color: red; color: white; }
+label[for="green"]:selected { background-color: green; color: white; }
+label[for="blue"]:selected { background-color: blue; color: white; }
+label[for="purple"]:selected { background-color: indigo; color: white; }
+label[for="yellow"]:selected { background-color: yellow; color: black; }
+label[for="orange"]:selected { background-color: orange; color: white; }
 
 
-#line-select option[value="red"]:hover { background-color: transparent; color: red; border-color: red;}
-#line-select option[value="green"]:hover { background-color: transparent; color: green; border-color: green;}
-#line-select option[value="blue"]:hover { background-color: transparent; color: blue; border-color: blue;}
-#line-select option[value="purple"]:hover { background-color: transparent; color: indigo; border-color: indigo;}
-#line-select option[value="yellow"]:hover { background-color: transparent; color: goldenrod; border-color: goldenrod;}
-#line-select option[value="orange"]:hover { background-color: transparent; color: orange; border-color: orange;}
-#line-select option[value="all"]:hover { background-color: transparent; color: white; border-color: white;}
 
-#line-select option[value="red"]:active { background-color: transparent; color: purple; border-color: red;}
+input[type="radio"]:checked + label {
+    font-weight: bold; 
+}
+
+label[for="time5"] {background-color: transparent; color: black; }
+label[for="time10"] {background-color: transparent; color: black; }
+label[for="time15"] {background-color: transparent; color: black; }
+label[for="time20"] {background-color: transparent; color: black; }
+
+label[for="time5"]:hover {background-color: #c0c0c0; color: white; border-color: black;}
+label[for="time10"]:hover {background-color: #c0c0c0; color: white; border-color: black;}
+label[for="time15"]:hover {background-color: #c0c0c0; color: white; border-color: black;}
+label[for="time20"]:hover {background-color: #c0c0c0; color: white; border-color: black;}
+
+
+input[id="time5"]:checked + label {background-color: black; color: white; border-color: white;} 
+input[id="time10"]:checked + label {background-color: black; color: white; border-color: white;} 
+input[id="time15"]:checked + label {background-color: black; color: white; border-color: white;} 
+input[id="time20"]:checked + label {background-color: black; color: white; border-color: white;} 
+
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: middle; 
+}
