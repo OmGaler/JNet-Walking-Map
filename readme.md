@@ -4,7 +4,7 @@ This project visualises the walking time isochrones (areas accessible within a c
 
 ## Usage
 
-- View the web app [here](omgaler.github.io/Jlem-Walking-Map/)
+- View the web app [here](https://omgaler.github.io/Jlem-Walking-Map/)
 
 Alternatively, to run locally:
 1. **Generate Isochrone GeoJSONs:**
