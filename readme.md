@@ -15,5 +15,5 @@ Alternatively, to run locally:
     ```
     - Open `localhost:8000` in your web browser.
 
-## Notes
+> [!TIP]
 Walking times can be viewed for all or individual lines, and can be limited to 5-20 minutes. Click on a station to see its name and what lines stop there. 
